@@ -16,7 +16,7 @@ html, body {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--black-primary);
   overflow-x: hidden;
   position: relative;

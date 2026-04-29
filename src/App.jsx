@@ -8,6 +8,8 @@ import Sidebar from './components/Sidebar';
 import UserSidebar from './pages/UserSidebar';
 import FinanceDashboard from './pages/FinanceDashboard';
 import UnderConstruction from './pages/UnderConstruction';
+import Gastos from './pages/Gastos';
+import Receitas from './pages/Receitas';
 import './App.css';
 
 function LoginPage() {
@@ -46,10 +48,9 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
         <Route path="/admin/usuarios" element={<AdminLayout><Usuarios /></AdminLayout>} />
         <Route path="/app" element={<UserLayout><FinanceDashboard /></UserLayout>} />
-        <Route path="/app/gastos" element={<UserLayout><UnderConstruction /></UserLayout>} />
-        <Route path="/app/receitas" element={<UserLayout><UnderConstruction /></UserLayout>} />
+        <Route path="/app/gastos" element={<UserLayout><Gastos /></UserLayout>} />
+        <Route path="/app/receitas" element={<UserLayout><Receitas /></UserLayout>} />
         <Route path="/app/metas" element={<UserLayout><UnderConstruction /></UserLayout>} />
-        <Route path="/app/categorias" element={<UserLayout><UnderConstruction /></UserLayout>} />
       </Routes>
     </BrowserRouter>
   );

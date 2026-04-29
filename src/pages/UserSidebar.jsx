@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, TrendingDown, TrendingUp, Tag, LogOut, ChevronLeft, ChevronRight, Wallet, PiggyBank } from 'lucide-react';
+import { LayoutDashboard, TrendingDown, TrendingUp, LogOut, ChevronLeft, ChevronRight, Wallet, PiggyBank } from 'lucide-react';
 import '../components/Sidebar.css';
 
 export default function UserSidebar() {
@@ -20,7 +20,6 @@ export default function UserSidebar() {
     { path: '/app/gastos',     icon: <TrendingDown size={18}/>,    label: 'Gastos'     },
     { path: '/app/receitas',   icon: <TrendingUp size={18}/>,      label: 'Receitas'   },
     { path: '/app/metas',      icon: <PiggyBank size={18}/>,       label: 'Metas'      },
-    { path: '/app/categorias', icon: <Tag size={18}/>,             label: 'Categorias' },
   ];
 
   return (

@@ -152,7 +152,7 @@
   background: rgba(168,155,242,0.02);
   border: 1px solid rgba(168,155,242,0.09);
   border-radius: 14px;
-  overflow: hidden;
+  overflow: visible;
   transition: border-color 0.2s ease;
 }
 .fd-chart-card:hover { border-color: rgba(168,155,242,0.14); }
@@ -210,7 +210,12 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
 }
+.fd-legend-item-hov { background: rgba(168,155,242,0.07); }
 
 .fd-legend-dot {
   width: 8px;
@@ -287,84 +292,80 @@
   padding: 3px 10px;
 }
 
+.fd-extrato-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Tooltips gráficos ── */
+.fd-pie-tooltip {
+  position: absolute;
+  bottom: -44px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6,6,6,0.96);
+  border: 1px solid rgba(168,155,242,0.2);
+  border-radius: 10px;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  animation: tooltipIn 0.15s ease both;
+}
+
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.fd-pie-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.fd-pie-tooltip-nome { font-size: 12px; color: rgba(168,155,242,0.8); font-weight: 500; }
+.fd-pie-tooltip-val  { font-size: 13px; color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fd-pie-tooltip-pct  { font-size: 11px; color: rgba(168,155,242,0.4); }
+
+.fd-bar-tooltip {
+  position: absolute;
+  top: -44px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6,6,6,0.96);
+  border: 1px solid rgba(168,155,242,0.2);
+  border-radius: 10px;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  animation: tooltipIn 0.15s ease both;
+}
+
+.fd-bar-tooltip-mes { font-size: 11px; color: rgba(168,155,242,0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.fd-bar-tooltip-val { font-size: 13px; color: var(--purple-light); font-weight: 700; font-variant-numeric: tabular-nums; }
+
 /* ── FAB ── */
 .fd-fab-wrap {
   position: fixed;
   bottom: 32px;
   right: 36px;
-  z-index: 200;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 10px;
 }
-
-.fd-fab {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple-primary), var(--accent));
-  border: none;
-  color: var(--black-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(168,155,242,0.4);
-  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-  position: relative;
-  z-index: 2;
-}
-.fd-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(168,155,242,0.5); }
-.fd-fab-active { transform: rotate(45deg) scale(1.05); }
-.fd-fab-active:hover { transform: rotate(45deg) scale(1.1); }
-
-.fd-fab-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-}
-.fd-fab-menu.open {
-  pointer-events: auto;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fd-fab-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 18px;
-  border-radius: 24px;
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-}
-.fd-fab-option:hover { transform: translateX(-3px); }
-
-.fd-fab-gasto {
-  background: rgba(239,68,68,0.12);
-  border: 1px solid rgba(239,68,68,0.3);
-  color: #ef4444;
-}
-.fd-fab-gasto:hover { background: rgba(239,68,68,0.2); }
-
-.fd-fab-receita {
-  background: rgba(16,185,129,0.12);
-  border: 1px solid rgba(16,185,129,0.3);
-  color: #10b981;
-}
-.fd-fab-receita:hover { background: rgba(16,185,129,0.2); }
 
 /* ── Modal de lançamento ── */
 .fd-lm-header {
@@ -435,7 +436,18 @@
   padding: 11px 22px;
   transition: background 0.15s ease;
   border-bottom: 1px solid rgba(168,155,242,0.04);
+  animation: fadeUp 0.35s cubic-bezier(0.4,0,0.2,1) both;
 }
+.fd-extrato-row:nth-child(1)  { animation-delay: 0.05s; }
+.fd-extrato-row:nth-child(2)  { animation-delay: 0.10s; }
+.fd-extrato-row:nth-child(3)  { animation-delay: 0.15s; }
+.fd-extrato-row:nth-child(4)  { animation-delay: 0.20s; }
+.fd-extrato-row:nth-child(5)  { animation-delay: 0.25s; }
+.fd-extrato-row:nth-child(6)  { animation-delay: 0.30s; }
+.fd-extrato-row:nth-child(7)  { animation-delay: 0.35s; }
+.fd-extrato-row:nth-child(8)  { animation-delay: 0.40s; }
+.fd-extrato-row:nth-child(9)  { animation-delay: 0.45s; }
+.fd-extrato-row:nth-child(10) { animation-delay: 0.50s; }
 .fd-extrato-row:last-child { border-bottom: none; }
 .fd-extrato-row:hover { background: rgba(168,155,242,0.03); }
 .fd-extrato-row-alt { background: rgba(168,155,242,0.015); }
@@ -506,8 +518,11 @@
   justify-content: center;
   padding: 40px;
 }
+
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0);}
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -531,26 +546,6 @@
   .fd-extrato-row span:nth-child(3),
   .fd-extrato-row span:nth-child(4) { display: none; }
   .fd-ext-val { font-size: 12px; }
-}
-
-@media (max-width: 768px) {
-  .fd-fab-wrap {
-    bottom: 80px;
-    right: 20px;
-    z-index: 300;
-  }
-}
-
-/* ── FAB redesign ── */
-.fd-fab-wrap {
-  position: fixed;
-  bottom: 32px;
-  right: 36px;
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
 }
 
 .fd-fab {
@@ -638,6 +633,13 @@
   box-shadow: 0 4px 14px rgba(168,155,242,0.15);
 }
 .fd-fab-meta:hover { border-color: rgba(168,155,242,0.4); background: rgba(168,155,242,0.08); }
+
+@media (max-width: 768px) {
+  .fd-fab-wrap {
+    bottom: 80px;
+    right: 20px;
+  }
+}
 
 /* ── Select estilizado ── */
 .fd-select-full {
