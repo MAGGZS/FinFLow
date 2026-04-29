@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingDown, RefreshCw, Plus, Trash2 } from 'lucide-react';
 import Toast, { useToast } from '../components/Toast';
+import Select from '../components/Select';
 import LancamentoModal from './LancamentoModal';
 import './Gastos.css';
 import '../components/Usuarios.css';
@@ -148,12 +149,16 @@ export default function Gastos() {
           <div className="gs-subtitle">{MESES[mes - 1]} {ano} · {gastos.length} lançamentos</div>
         </div>
         <div className="gs-topbar-right">
-          <select className="gs-select" value={mes} onChange={e => setMes(+e.target.value)}>
-            {MESES.map((m, i) => <option key={i} value={i + 1}>{m}</option>)}
-          </select>
-          <select className="gs-select" value={ano} onChange={e => setAno(+e.target.value)}>
-            {[2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
-          </select>
+          <Select
+            value={mes}
+            onChange={v => setMes(+v)}
+            options={MESES.map((m, i) => ({ value: i + 1, label: m }))}
+          />
+          <Select
+            value={ano}
+            onChange={v => setAno(+v)}
+            options={[2024, 2025, 2026].map(y => ({ value: y, label: String(y) }))}
+          />
           <button className="gs-refresh" onClick={load} disabled={loading}>
             <RefreshCw size={14} className={loading ? 'spin' : ''} />
           </button>

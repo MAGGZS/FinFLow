@@ -7,6 +7,7 @@ import Usuarios from './components/Usuarios';
 import Sidebar from './components/Sidebar';
 import UserSidebar from './pages/UserSidebar';
 import FinanceDashboard from './pages/FinanceDashboard';
+import Profile from './pages/profile/Profile';
 import UnderConstruction from './pages/UnderConstruction';
 import Gastos from './pages/Gastos';
 import Receitas from './pages/Receitas';
@@ -51,6 +52,8 @@ export default function App() {
         <Route path="/app/gastos" element={<UserLayout><Gastos /></UserLayout>} />
         <Route path="/app/receitas" element={<UserLayout><Receitas /></UserLayout>} />
         <Route path="/app/metas" element={<UserLayout><UnderConstruction /></UserLayout>} />
+        <Route path="/app/categorias" element={<UserLayout><UnderConstruction /></UserLayout>} />
+        <Route path="/app/perfil" element={<UserLayout><Profile /></UserLayout>} />
       </Routes>
     </BrowserRouter>
   );

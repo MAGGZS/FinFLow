@@ -330,6 +330,13 @@
 }
 .sidebar-logout:active { transform: translateY(0); }
 
+/* Perfil só aparece na navbar mobile */
+.sidebar-item-mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .sidebar-item-mobile-only { display: flex; }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }

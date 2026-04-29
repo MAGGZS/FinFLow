@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TrendingDown, TrendingUp } from 'lucide-react';
+import Select from '../components/Select';
 
 export default function LancamentoModal({ tipo, categorias, onSave, onCancel }) {
   const hoje = new Date().toISOString().slice(0, 10);
@@ -80,13 +81,16 @@ export default function LancamentoModal({ tipo, categorias, onSave, onCancel }) 
 
         <div className="usr-edit-field">
           <label>Categoria</label>
-          <select className="fd-select-full" value={categoriaId} onChange={e => setCategoriaId(e.target.value)}>
-            <option value="">Sem categoria</option>
-            {catsFiltradas.map(c => (
-              <option key={c.id} value={String(c.id)}>{c.icone} {c.nome}</option>
-            ))}
-            <option value="outra">➕ Outra categoria...</option>
-          </select>
+          <Select
+            value={categoriaId}
+            onChange={v => setCategoriaId(v)}
+            placeholder="Sem categoria"
+            options={[
+              { value: '', label: 'Sem categoria' },
+              ...catsFiltradas.map(c => ({ value: String(c.id), label: `${c.icone} ${c.nome}` })),
+              { value: 'outra', label: '➕ Outra categoria...' },
+            ]}
+          />
         </div>
 
         {isOutra && (

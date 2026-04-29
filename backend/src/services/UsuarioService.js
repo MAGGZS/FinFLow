@@ -22,6 +22,24 @@ export async function loginService({ email, senha }) {
   return { token, usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email, admin: usuario.admin ?? false } };
 }
 
+export async function updatePerfilService(id, { nome, email, senha }) {
+  const update = { nome, email };
+
+  if (senha) {
+    update.senha_hash = await bcrypt.hash(senha, 12);
+  }
+
+  const { data, error } = await supabase
+    .from('usuario')
+    .update(update)
+    .eq('id', id)
+    .select('id, nome, email, admin')
+    .single();
+
+  if (error) throw { status: 500, message: error.message };
+  return data;
+}
+
 export async function registerService({ nome, email, senha }) {
   const { data: existing } = await supabase
     .from('usuario')

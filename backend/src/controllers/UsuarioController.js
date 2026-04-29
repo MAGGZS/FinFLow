@@ -1,4 +1,4 @@
-import { loginService, registerService } from '../services/UsuarioService.js';
+import { loginService, registerService, updatePerfilService } from '../services/UsuarioService.js';
 
 export async function login(req, res) {
   const { email, senha } = req.body;
@@ -21,6 +21,15 @@ export async function register(req, res) {
   try {
     const data = await registerService({ nome, email, senha });
     res.status(201).json(data);
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message });
+  }
+}
+
+export async function updatePerfil(req, res) {
+  try {
+    const data = await updatePerfilService(req.userId, req.body);
+    res.json(data);
   } catch (err) {
     res.status(err.status || 500).json({ error: err.message });
   }
