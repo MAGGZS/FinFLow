@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, TrendingDown, Wallet, RefreshCw, Plus, X } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, RefreshCw, Plus, X, PiggyBank } from 'lucide-react';
 import Toast, { useToast } from '../components/Toast';
 import RendaModal from './RendaModal';
 import './FinanceDashboard.css';
@@ -16,29 +16,33 @@ function LancamentoModal({ tipo, categorias, onSave, onCancel }) {
   const [valor, setValor] = useState('');
   const [data, setData] = useState(hoje);
   const [categoriaId, setCategoriaId] = useState('');
+  const [catPersonalizada, setCatPersonalizada] = useState('');
   const [saving, setSaving] = useState(false);
 
   const isGasto = tipo === 'gasto';
   const catsFiltradas = categorias.filter(c => c.tipo === (isGasto ? 'gasto' : 'receita'));
+  const isOutra = categoriaId === 'outra';
 
   const handleSubmit = async () => {
     if (!descricao.trim()) return;
     const v = parseFloat(valor.replace(',', '.'));
     if (!v || v <= 0) return;
+    const catId = isOutra ? null : (categoriaId || null);
+    const descFinal = isOutra && catPersonalizada ? `[${catPersonalizada}] ${descricao}` : descricao;
     setSaving(true);
-    await onSave({ descricao, valor: v, data, categoria_id: categoriaId || null });
+    await onSave({ descricao: descFinal, valor: v, data, categoria_id: catId });
     setSaving(false);
   };
 
   const accentColor = isGasto ? '#ef4444' : '#10b981';
-  const accentBg    = isGasto ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)';
-  const accentBorder= isGasto ? 'rgba(239,68,68,0.25)' : 'rgba(16,185,129,0.25)';
+  const accentBg    = isGasto ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)';
+  const accentBorder= isGasto ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)';
 
   return (
     <div className="usr-modal-overlay" onClick={onCancel}>
       <div className="usr-modal-box usr-modal-edit" onClick={e => e.stopPropagation()}>
 
-        <div className="fd-lm-header" style={{ borderColor: accentBorder }}>
+        <div className="fd-lm-header" style={{ borderColor: 'rgba(168,155,242,0.08)' }}>
           <div className="fd-lm-icon" style={{ background: accentBg, border: `1px solid ${accentBorder}`, color: accentColor }}>
             {isGasto ? <TrendingDown size={20}/> : <TrendingUp size={20}/>}
           </div>
@@ -51,7 +55,6 @@ function LancamentoModal({ tipo, categorias, onSave, onCancel }) {
         </div>
 
         <div className="usr-modal-section-label">Informações</div>
-
         <div className="usr-edit-field">
           <label>Descrição</label>
           <input placeholder={isGasto ? 'Ex: Almoço, Uber...' : 'Ex: Salário, Freelance...'}
@@ -61,7 +64,8 @@ function LancamentoModal({ tipo, categorias, onSave, onCancel }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div className="usr-edit-field">
             <label>Valor (R$)</label>
-            <input type="number" placeholder="0,00" value={valor} onChange={e => setValor(e.target.value)}
+            <input type="number" placeholder="0,00" value={valor}
+              onChange={e => setValor(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSubmit()}/>
           </div>
           <div className="usr-edit-field">
@@ -71,30 +75,41 @@ function LancamentoModal({ tipo, categorias, onSave, onCancel }) {
           </div>
         </div>
 
-        <div className="usr-modal-section-label">Categoria</div>
-        <div className="fd-lm-cats">
-          <div
-            className={`fd-lm-cat${!categoriaId ? ' fd-lm-cat-active' : ''}`}
-            onClick={() => setCategoriaId('')}
+        <div className="usr-edit-field">
+          <label>Categoria</label>
+          <select
+            className="fd-select-full"
+            value={categoriaId}
+            onChange={e => setCategoriaId(e.target.value)}
           >
-            📦 Sem categoria
-          </div>
-          {catsFiltradas.map(c => (
-            <div
-              key={c.id}
-              className={`fd-lm-cat${categoriaId === String(c.id) ? ' fd-lm-cat-active' : ''}`}
-              style={categoriaId === String(c.id) ? { borderColor: c.cor, background: c.cor + '18', color: c.cor } : {}}
-              onClick={() => setCategoriaId(String(c.id))}
-            >
-              {c.icone} {c.nome}
-            </div>
-          ))}
+            <option value="">Sem categoria</option>
+            {catsFiltradas.map(c => (
+              <option key={c.id} value={String(c.id)}>{c.icone} {c.nome}</option>
+            ))}
+            <option value="outra">➕ Outra categoria...</option>
+          </select>
         </div>
+
+        {isOutra && (
+          <div className="usr-edit-field">
+            <label>Nome da categoria personalizada</label>
+            <input
+              placeholder="Ex: Academia, Pet..."
+              value={catPersonalizada}
+              onChange={e => setCatPersonalizada(e.target.value)}
+              autoFocus
+            />
+          </div>
+        )}
 
         <div className="usr-modal-actions">
           <button className="usr-btn-cancel" onClick={onCancel} disabled={saving}>Cancelar</button>
-          <button className="usr-btn-save" onClick={handleSubmit} disabled={saving || !descricao || !valor}
-            style={{ background: `linear-gradient(135deg, ${accentColor}, ${isGasto ? '#dc2626' : '#059669'})` }}>
+          <button
+            className="usr-btn-save"
+            onClick={handleSubmit}
+            disabled={saving || !descricao || !valor}
+            style={{ background: `linear-gradient(135deg, ${accentColor}, ${isGasto ? '#dc2626' : '#059669'})` }}
+          >
             {saving ? 'Salvando...' : isGasto ? 'Registrar gasto' : 'Registrar receita'}
           </button>
         </div>
@@ -474,6 +489,9 @@ export default function FinanceDashboard() {
       {/* FAB */}
       <div className="fd-fab-wrap" ref={fabRef}>
         <div className={`fd-fab-menu${fabOpen ? ' open' : ''}`}>
+          <button className="fd-fab-option fd-fab-meta" onClick={() => { navigate('/app/metas'); setFabOpen(false); }}>
+            <PiggyBank size={15}/> Meta
+          </button>
           <button className="fd-fab-option fd-fab-receita" onClick={() => { setModalTipo('receita'); setFabOpen(false); }}>
             <TrendingUp size={15}/> Receita
           </button>
@@ -482,7 +500,7 @@ export default function FinanceDashboard() {
           </button>
         </div>
         <button className={`fd-fab${fabOpen ? ' fd-fab-active' : ''}`} onClick={() => setFabOpen(o => !o)}>
-          {fabOpen ? <X size={22}/> : <Plus size={22}/>}
+          {fabOpen ? <X size={20}/> : <Plus size={20}/>}
         </button>
       </div>
     </div>

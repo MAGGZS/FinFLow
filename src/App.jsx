@@ -48,6 +48,7 @@ export default function App() {
         <Route path="/app" element={<UserLayout><FinanceDashboard /></UserLayout>} />
         <Route path="/app/gastos" element={<UserLayout><UnderConstruction /></UserLayout>} />
         <Route path="/app/receitas" element={<UserLayout><UnderConstruction /></UserLayout>} />
+        <Route path="/app/metas" element={<UserLayout><UnderConstruction /></UserLayout>} />
         <Route path="/app/categorias" element={<UserLayout><UnderConstruction /></UserLayout>} />
       </Routes>
     </BrowserRouter>
