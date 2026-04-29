@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Usuarios.css';
 import Toast, { useToast } from './Toast';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'https://finflow-j1ca.onrender.com';
 
 const getAvatarColor = (nome) => {
   const colors = ['#A89BF2','#8B7FD9','#6B5FA8','#D4CCFF','#9f8ef5','#c4b8ff'];
