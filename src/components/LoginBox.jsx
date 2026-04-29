@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import heroImg from '../assets/hero.png';
 import './LoginBox.css';
 import api from '../services/api';
 import Toast, { useToast } from './Toast';
-import Modal from './Modal';
 
 const EyeIcon = ({ open }) => open ? (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -113,10 +113,10 @@ export default function LoginBox() {
   const [termsError, setTermsError] = useState('');
   const [prefill, setPrefill] = useState({ email: '', senha: '' });
   const [fieldErrors, setFieldErrors] = useState({});
-  const [usuario, setUsuario] = useState(null);
   const [registerPassword, setRegisterPassword] = useState('');
   const [pwdFocused, setPwdFocused] = useState(false);
   const pwdInputRef = useRef(null);
+  const navigate = useNavigate();
   const { toasts, show: showToast } = useToast();
 
   const setError = (field, msg) => setFieldErrors(e => ({ ...e, [field]: msg }));
@@ -127,7 +127,9 @@ export default function LoginBox() {
     setLoading(true);
     try {
       const data = await api.login(e.target.email.value, e.target.password.value);
-      setUsuario(data.usuario);
+      localStorage.setItem('usuario', JSON.stringify(data.usuario));
+      if (data.usuario.admin) navigate('/admin');
+      else navigate('/app');
     } catch (err) {
       setFieldErrors({ loginEmail: true, loginPassword: err.message });
     } finally {
@@ -198,7 +200,6 @@ export default function LoginBox() {
   return (
     <div className="form-section">
       <Toast toasts={toasts} />
-      <Modal usuario={usuario} onClose={() => setUsuario(null)} />
       <PasswordStrength value={registerPassword} visible={pwdFocused || registerPassword.length > 0} anchorRef={pwdInputRef} />
       <div className="login-box">
         <button className="back-btn" onClick={() => mode === 'register' ? switchMode('login') : history.back()}>
