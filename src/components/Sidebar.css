@@ -334,3 +334,102 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* ══════════════════════════════════════════════════════
+   MOBILE — sidebar vira navbar inferior
+══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Esconde sidebar lateral */
+  .sidebar {
+    width: 100% !important;
+    height: 64px;
+    min-height: unset;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    border-right: none;
+    border-top: 1px solid rgba(168,155,242,0.12);
+    backdrop-filter: blur(16px);
+    background: rgba(4,4,4,0.97);
+    animation: none;
+    overflow: hidden;
+    z-index: 200;
+  }
+
+  /* Esconde elementos que não fazem sentido no mobile */
+  .sidebar-header,
+  .sidebar-label,
+  .sidebar-footer,
+  .sidebar-toggle,
+  .sidebar-item-label,
+  .sidebar-item-dot {
+    display: none !important;
+  }
+
+  /* Nav vira linha horizontal */
+  .sidebar-nav {
+    flex-direction: row;
+    gap: 0;
+    flex: 1;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+  }
+
+  .sidebar-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transform: none !important;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
+  .sidebar-item:hover { transform: none !important; }
+  .sidebar-item.active { background: rgba(168,155,242,0.1); }
+  .sidebar-item.active::before {
+    top: auto;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple-primary), var(--accent));
+  }
+
+  .sidebar-item-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Spacer some no mobile */
+  .sidebar-spacer,
+  .sidebar-spacer-collapsed {
+    display: none;
+  }
+
+  /* Conteúdo principal ocupa tudo e tem padding inferior para não ficar atrás da navbar */
+  .dash-main {
+    margin-left: 0 !important;
+    padding: 20px 16px 84px !important;
+    width: 100%;
+  }
+
+  /* Stats em 2 colunas */
+  .dash-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  /* Topbar compacta */
+  .dash-topbar { margin-bottom: 20px; padding-bottom: 16px; }
+  .dash-title  { font-size: 20px; }
+
+  /* Tabelas com scroll horizontal */
+  .dash-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .usr-card        { overflow-x: auto; }
+}

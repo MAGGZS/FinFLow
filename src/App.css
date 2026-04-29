@@ -72,3 +72,16 @@ body::after {
 @media (max-width: 768px) {
   .container { flex-direction: column; }
 }
+
+@media (max-width: 768px) {
+  body { overflow-x: hidden; overflow-y: auto; }
+  .container { flex-direction: column; min-height: 100vh; }
+  .login-box { max-width: 100%; margin: 0 16px; }
+}
+
+@media (max-width: 768px) {
+  .dash-stats .dash-stat-card:last-child:nth-child(odd),
+  .fd-cards .fd-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}

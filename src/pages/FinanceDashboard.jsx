@@ -235,12 +235,24 @@ export default function FinanceDashboard() {
     }
   };
 
-  // Gráfico pizza SVG
-  const PieChart = ({ data }) => {
-    if (!data?.length) return <div className="fd-chart-empty">Sem gastos este mês</div>;
-    const total = data.reduce((s, d) => s + d.total, 0);
+  // Gráfico pizza SVG — geral (disponível + categorias de gasto)
+  const PieChart = () => {
+    if (!resumo) return <div className="fd-chart-empty">Sem dados este mês</div>;
+
+    const saldo = Math.max(Number(resumo.saldo), 0);
+    const cats = resumo.por_categoria || [];
+
+    // Monta fatias: disponível + cada categoria de gasto
+    const fatias = [
+      ...(saldo > 0 ? [{ nome: 'Disponível', cor: '#10b981', icone: '✓', total: saldo }] : []),
+      ...cats,
+    ];
+
+    if (!fatias.length) return <div className="fd-chart-empty">Sem movimentação este mês</div>;
+
+    const total = fatias.reduce((s, d) => s + d.total, 0);
     let angle = 0;
-    const slices = data.map(d => {
+    const slices = fatias.map(d => {
       const pct = d.total / total;
       const start = angle;
       angle += pct * 360;
@@ -252,28 +264,30 @@ export default function FinanceDashboard() {
       return { x: 50 + r * Math.cos(rad), y: 50 + r * Math.sin(rad) };
     };
 
+    const usadoPct = resumo.percentual_gasto ?? 0;
+
     return (
       <div className="fd-pie-wrap">
         <svg viewBox="0 0 100 100" className="fd-pie-svg">
           {slices.map((s, i) => {
-            const p1 = polarToXY(s.start, 38);
-            const p2 = polarToXY(s.end, 38);
+            const R = 42, r = 28;
+            const p1o = polarToXY(s.start, R);
+            const p2o = polarToXY(s.end, R);
+            const p1i = polarToXY(s.end, r);
+            const p2i = polarToXY(s.start, r);
             const large = s.pct > 0.5 ? 1 : 0;
             return (
               <path key={i}
-                d={`M50,50 L${p1.x},${p1.y} A38,38 0 ${large},1 ${p2.x},${p2.y} Z`}
+                d={`M${p1o.x},${p1o.y} A${R},${R} 0 ${large},1 ${p2o.x},${p2o.y} L${p1i.x},${p1i.y} A${r},${r} 0 ${large},0 ${p2i.x},${p2i.y} Z`}
                 fill={s.cor || '#A89BF2'}
-                opacity="0.85"
-                stroke="rgba(5,5,5,0.8)"
-                strokeWidth="0.5"
+                opacity="0.9"
+                stroke="rgba(5,5,5,0.6)"
+                strokeWidth="0.4"
               />
             );
           })}
-          <circle cx="50" cy="50" r="22" fill="rgba(5,5,5,0.95)"/>
-          <text x="50" y="47" textAnchor="middle" fontSize="7" fill="rgba(168,155,242,0.5)" fontWeight="600">GASTOS</text>
-          <text x="50" y="56" textAnchor="middle" fontSize="6.5" fill="var(--purple-light)" fontWeight="700">
-            {resumo?.percentual_gasto ?? 0}%
-          </text>
+          <text x="50" y="46" textAnchor="middle" fontSize="6.5" fill="rgba(168,155,242,0.45)" fontWeight="600">USADO</text>
+          <text x="50" y="55" textAnchor="middle" fontSize="8" fill="var(--purple-light)" fontWeight="700">{usadoPct}%</text>
         </svg>
         <div className="fd-pie-legend">
           {slices.map((s, i) => (
@@ -384,12 +398,12 @@ export default function FinanceDashboard() {
       <div className="fd-charts">
         <div className="fd-chart-card">
           <div className="fd-chart-header">
-            <span className="fd-chart-title">Gastos por categoria</span>
+            <span className="fd-chart-title">Visão geral do mês</span>
           </div>
           <div className="fd-chart-body">
             {loading
               ? <div className="fd-loading"><div className="dash-spinner"/></div>
-              : <PieChart data={resumo?.por_categoria}/>
+              : <PieChart />
             }
           </div>
         </div>

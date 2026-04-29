@@ -561,3 +561,16 @@
 .usr-btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168,155,242,0.35); }
 .usr-btn-save:active { transform: translateY(0); }
 .usr-btn-save:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+@media (max-width: 768px) {
+  .usr-page { padding: 20px 16px 84px; }
+  .usr-header { flex-wrap: wrap; gap: 10px; }
+  .usr-title { font-size: 20px; }
+  .usr-table th:nth-child(3),
+  .usr-table td:nth-child(3) { display: none; }
+  .usr-table th, .usr-table td { padding: 10px 10px; font-size: 11px; }
+  .usr-actions { flex-direction: column; gap: 4px; }
+  .usr-btn-edit, .usr-btn-del { padding: 5px 10px; font-size: 11px; }
+  .usr-modal-box { padding: 28px 20px; }
+  .usr-modal-box.usr-modal-edit { max-width: 100%; margin: 0 16px; }
+}

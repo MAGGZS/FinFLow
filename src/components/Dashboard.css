@@ -387,3 +387,15 @@
   .dash-stats { grid-template-columns: repeat(2, 1fr); }
   .dash-main  { padding: 28px 24px; }
 }
+
+@media (max-width: 768px) {
+  .dash-page { flex-direction: column; }
+  .dash-main { padding: 20px 16px 84px !important; width: 100%; }
+  .dash-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .dash-stat-value { font-size: 24px; }
+  .dash-stat-card { padding: 16px 14px 14px; }
+  .dash-title { font-size: 20px; }
+  .dash-topbar { flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+  .dash-table th, .dash-table td { padding: 10px 12px; font-size: 11px; }
+  .dash-chart-wrap { padding: 14px 12px; }
+}

@@ -513,3 +513,22 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+@media (max-width: 768px) {
+  .fd-page { padding: 20px 16px 84px; }
+  .fd-topbar { flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+  .fd-title { font-size: 20px; }
+  .fd-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .fd-card-value { font-size: 18px; }
+  .fd-card { padding: 16px 14px 14px; }
+  .fd-charts { grid-template-columns: 1fr; }
+  .fd-pie-wrap { flex-direction: column; align-items: center; }
+  .fd-pie-svg { width: 140px; height: 140px; }
+  .fd-extrato-head,
+  .fd-extrato-row { grid-template-columns: 70px 1fr 80px; }
+  .fd-extrato-head span:nth-child(3),
+  .fd-extrato-head span:nth-child(4),
+  .fd-extrato-row span:nth-child(3),
+  .fd-extrato-row span:nth-child(4) { display: none; }
+  .fd-ext-val { font-size: 12px; }
+}
