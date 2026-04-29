@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import financeRoutes from './routes/financeRoutes.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/auth', usuarioRoutes);
 app.use('/admin', adminRoutes);
+app.use('/finance', financeRoutes);
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }));
 

@@ -10,7 +10,8 @@ export default function Modal({ usuario, onClose }) {
       localStorage.setItem('usuario', JSON.stringify(usuario));
       navigate('/admin');
     } else {
-      onClose();
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      navigate('/app');
     }
   };
 

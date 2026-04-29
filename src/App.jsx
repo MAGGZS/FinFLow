@@ -5,6 +5,8 @@ import InteractiveLight from './components/InteractiveLight';
 import Dashboard from './components/Dashboard';
 import Usuarios from './components/Usuarios';
 import Sidebar from './components/Sidebar';
+import UserSidebar from './pages/UserSidebar';
+import FinanceDashboard from './pages/FinanceDashboard';
 import './App.css';
 
 function LoginPage() {
@@ -26,6 +28,15 @@ function AdminLayout({ children }) {
   );
 }
 
+function UserLayout({ children }) {
+  return (
+    <div className="dash-page" style={{ overflow: 'auto' }}>
+      <UserSidebar />
+      <main className="dash-main" style={{ flex: 1 }}>{children}</main>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -33,6 +44,7 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
         <Route path="/admin/usuarios" element={<AdminLayout><Usuarios /></AdminLayout>} />
+        <Route path="/app" element={<UserLayout><FinanceDashboard /></UserLayout>} />
       </Routes>
     </BrowserRouter>
   );
