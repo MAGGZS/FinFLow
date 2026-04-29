@@ -172,6 +172,10 @@
   transition: all 0.2s ease;
   font-family: inherit;
   letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .dash-logout:hover {
   background: rgba(255,80,80,0.12);

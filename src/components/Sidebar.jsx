@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Users, LogOut } from 'lucide-react';
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -12,8 +13,8 @@ export default function Sidebar() {
   };
 
   const links = [
-    { path: '/admin',          icon: '◈', label: 'Dashboard' },
-    { path: '/admin/usuarios', icon: '◉', label: 'Usuários'  },
+    { path: '/admin',          icon: <LayoutDashboard size={16}/>, label: 'Dashboard' },
+    { path: '/admin/usuarios', icon: <Users size={16}/>,           label: 'Usuários'  },
   ];
 
   return (
@@ -28,7 +29,7 @@ export default function Sidebar() {
             className={`dash-nav-item${pathname === l.path ? ' active' : ''}`}
             onClick={() => navigate(l.path)}
           >
-            <span>{l.icon}</span> {l.label}
+            {l.icon} {l.label}
           </div>
         ))}
       </nav>
@@ -43,7 +44,9 @@ export default function Sidebar() {
             <div className="dash-admin-role">Administrador</div>
           </div>
         </div>
-        <button className="dash-logout" onClick={handleLogout}>← Sair</button>
+        <button className="dash-logout" onClick={handleLogout}>
+          <LogOut size={13}/> Sair
+        </button>
       </div>
     </aside>
   );
