@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "echo 'no build needed'",
     "dev": "node --watch src/index.js",
     "start": "node src/index.js"
   },
