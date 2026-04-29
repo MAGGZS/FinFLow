@@ -21,7 +21,7 @@ function AdminLayout({ children }) {
   return (
     <div className="dash-page" style={{ overflow: 'auto' }}>
       <Sidebar />
-      <main className="dash-main">{children}</main>
+      <main className="dash-main" style={{ flex: 1 }}>{children}</main>
     </div>
   );
 }
