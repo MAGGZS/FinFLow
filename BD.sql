@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS finflow
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE finflow;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+  id         INT PRIMARY KEY AUTO_INCREMENT,
+  nome       VARCHAR(100) NOT NULL,
+  email      VARCHAR(150) NOT NULL UNIQUE,
+  senha_hash VARCHAR(255) NOT NULL,
+  ativo      BOOLEAN DEFAULT TRUE,
+  admin      BOOLEAN DEFAULT FALSE,
+  criado_em  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

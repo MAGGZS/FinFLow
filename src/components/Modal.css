@@ -1,0 +1,108 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: overlayIn 0.25s ease both;
+}
+
+.modal-box {
+  background: rgba(8, 8, 8, 0.95);
+  border: 1px solid rgba(168, 155, 242, 0.25);
+  border-radius: 16px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(168, 155, 242, 0.1);
+  animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  text-align: center;
+}
+
+.modal-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple-primary) 0%, var(--accent) 100%);
+  color: var(--black-primary);
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 24px rgba(168, 155, 242, 0.4);
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--purple-light);
+  margin-bottom: 24px;
+  letter-spacing: -0.3px;
+}
+
+.modal-body {
+  background: rgba(168, 155, 242, 0.04);
+  border: 1px solid rgba(168, 155, 242, 0.1);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.modal-label {
+  color: rgba(168, 155, 242, 0.5);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.modal-value {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--purple-primary) 0%, var(--accent) 100%);
+  border: none;
+  border-radius: 8px;
+  color: var(--black-primary);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+.modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(168, 155, 242, 0.4);
+}
+.modal-btn:active { transform: translateY(0); }
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}

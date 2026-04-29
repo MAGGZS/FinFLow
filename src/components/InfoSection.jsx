@@ -4,24 +4,24 @@ export default function InfoSection() {
   return (
     <div className="info-section">
       <div className="project-header">
-        <h1 className="project-title">RootRPG</h1>
-        <p className="project-subtitle">A Aventura Épica Te Aguarda</p>
+        <h1 className="project-title">FinFlow</h1>
+        <p className="project-subtitle">Controle total das suas finanças</p>
         <p className="project-description">
-          Embarque em uma experiência de RPG imersiva onde suas escolhas moldam o mundo.
-          Batalhe criaturas míticas, resolva mistérios antigos e se torne uma lenda no reino de RootRPG.
+          Gerencie receitas, despesas e investimentos em um só lugar.
+          Visualize seu patrimônio em tempo real e tome decisões financeiras mais inteligentes.
         </p>
         <div className="features-list">
           <div className="feature-item">
             <div className="feature-dot"></div>
-            <span>Narrativa imersiva e construção de mundo</span>
+            <span>Dashboard com visão geral do seu saldo</span>
           </div>
           <div className="feature-item">
             <div className="feature-dot"></div>
-            <span>Combate dinâmico e progressão de habilidades</span>
+            <span>Categorização automática de gastos</span>
           </div>
           <div className="feature-item">
             <div className="feature-dot"></div>
-            <span>Junte-se a milhares de aventureiros</span>
+            <span>Relatórios e metas de economia mensais</span>
           </div>
         </div>
       </div>
