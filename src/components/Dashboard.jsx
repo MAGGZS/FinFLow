@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import Toast, { useToast } from './Toast';
 
-const BASE_URL = 'https://finflow-j1ca.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_URL;
 const MONTHS_LABEL = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
 export default function Dashboard() {
