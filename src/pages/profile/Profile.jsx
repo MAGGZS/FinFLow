@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { User, Lock, Check, Eye, EyeOff, Save } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, Save } from 'lucide-react';
 import Toast, { useToast } from '../../components/Toast';
 import './Profile.css';
 
@@ -12,6 +13,42 @@ const rules = [
   { id: 'number',  label: 'Um número',             test: v => /[0-9]/.test(v) },
   { id: 'special', label: 'Um caractere especial', test: v => /[^A-Za-z0-9]/.test(v) },
 ];
+
+function PasswordStrength({ value, visible, anchorRef }) {
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (!anchorRef?.current) return;
+    const rect = anchorRef.current.getBoundingClientRect();
+    setPos({ top: rect.top + rect.height / 2, left: rect.left - 14 - 200 });
+  }, [visible, anchorRef]);
+
+  const checks = rules.map(r => ({ ...r, ok: r.test(value) }));
+
+  return createPortal(
+    <div className={`pwd-drop${visible ? ' pwd-drop-open' : ''}`} style={{ top: pos.top, left: pos.left }}>
+      <div className="pwd-drop-inner">
+        {checks.map(c => (
+          <div key={c.id} className={`pwd-rule${c.ok ? ' pwd-rule-ok' : ''}`}>
+            <span className="pwd-rule-icon">
+              {c.ok ? (
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : (
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+              )}
+            </span>
+            {c.label}
+          </div>
+        ))}
+      </div>
+    </div>,
+    document.body
+  );
+}
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -27,6 +64,7 @@ export default function Profile() {
   const [pwdFocused, setPwdFocused] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
+  const pwdRef = useRef(null);
 
   if (!usuario) { navigate('/'); return null; }
 
@@ -80,6 +118,7 @@ export default function Profile() {
   return (
     <div className="pf-page">
       <Toast toasts={toasts}/>
+      <PasswordStrength value={senha} visible={pwdFocused || senha.length > 0} anchorRef={pwdRef}/>
 
       <div className="pf-topbar">
         <div>
@@ -141,6 +180,7 @@ export default function Profile() {
               <label>Nova senha</label>
               <div className="pf-input-wrap">
                 <input
+                  ref={pwdRef}
                   type={showSenha ? 'text' : 'password'}
                   value={senha}
                   onChange={e => { setSenha(e.target.value); setErrors(v => ({ ...v, senha: '' })); }}
@@ -155,22 +195,6 @@ export default function Profile() {
               </div>
               {errors.senha && <span className="pf-error">⚠ {errors.senha}</span>}
             </div>
-
-            {(pwdFocused || senha.length > 0) && (
-              <div className="pf-rules">
-                {checks.map(c => (
-                  <div key={c.id} className={`pf-rule${c.ok ? ' ok' : ''}`}>
-                    <span className="pf-rule-icon">
-                      {c.ok
-                        ? <Check size={9} strokeWidth={3}/>
-                        : <span style={{ width: 9, height: 9, borderRadius: '50%', border: '1.5px solid currentColor', display: 'inline-block' }}/>
-                      }
-                    </span>
-                    {c.label}
-                  </div>
-                ))}
-              </div>
-            )}
 
             <div className="pf-field">
               <label>Confirmar nova senha</label>

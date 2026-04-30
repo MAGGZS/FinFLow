@@ -80,7 +80,14 @@ export default function FinanceDashboard() {
       const promises = [];
       for (let i = 5; i >= 0; i--) {
         const d = new Date(ano, mes - 1 - i, 1);
-        promises.push(fetch(`${BASE_URL}/finance/resumo?ano=${d.getFullYear()}&mes=${d.getMonth()+1}`, { headers }).then(r => r.json()));
+        const y = d.getFullYear();
+        const m = d.getMonth() + 1;
+        promises.push(
+          fetch(`${BASE_URL}/finance/resumo?ano=${y}&mes=${m}`, { headers })
+            .then(r => r.json())
+            .then(data => ({ ...data, ano: y, mes: m }))
+            .catch(() => ({ ano: y, mes: m, total_gastos: 0 }))
+        );
       }
       setHistorico(await Promise.all(promises));
     } catch (e) {

@@ -24,7 +24,7 @@
 
 .pf-subtitle {
   font-size: 12px;
-  color: rgba(168,155,242,0.4);
+  color: var(--text-muted);
   margin-top: 4px;
   letter-spacing: 0.3px;
 }
@@ -93,8 +93,8 @@
 
 /* ── Form card ── */
 .pf-form-card {
-  background: rgba(168,155,242,0.02);
-  border: 1px solid rgba(168,155,242,0.09);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   overflow: hidden;
   transition: border-color 0.3s ease;
@@ -112,7 +112,7 @@
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(168,155,242,0.35);
+  color: var(--text-muted);
   font-weight: 600;
   margin-bottom: 16px;
 }
@@ -140,7 +140,7 @@
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  color: rgba(168,155,242,0.5);
+  color: var(--text-secondary);
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -149,10 +149,10 @@
 .pf-input-wrap input {
   width: 100%;
   padding: 10px 13px;
-  background: rgba(168,155,242,0.05);
-  border: 1px solid rgba(168,155,242,0.13);
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
   border-radius: 9px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 13px;
   outline: none;
   font-family: inherit;

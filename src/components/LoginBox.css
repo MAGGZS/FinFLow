@@ -327,14 +327,14 @@ input::placeholder { color: rgba(168, 155, 242, 0.4); }
 .pwd-drop-inner::before {
   content: '';
   position: absolute;
-  left: -6px;
+  right: -6px;
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
   width: 10px;
   height: 10px;
   background: rgba(8, 8, 8, 0.95);
-  border-left: 1px solid rgba(168, 155, 242, 0.2);
-  border-bottom: 1px solid rgba(168, 155, 242, 0.2);
+  border-right: 1px solid rgba(168, 155, 242, 0.2);
+  border-top: 1px solid rgba(168, 155, 242, 0.2);
 }
 
 .pwd-rule {

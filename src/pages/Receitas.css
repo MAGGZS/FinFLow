@@ -17,6 +17,7 @@
   min-height: 100vh;
   animation: fadeIn 0.35s ease both;
   position: relative;
+  color: var(--text-primary);
 }
 
 .rc-topbar {
@@ -38,7 +39,7 @@
 
 .rc-subtitle {
   font-size: 12px;
-  color: rgba(168,155,242,0.4);
+  color: var(--text-muted);
   margin-top: 4px;
   letter-spacing: 0.3px;
 }
@@ -218,17 +219,17 @@
 
 .rc-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .rc-cat-info { flex: 1; min-width: 0; }
-.rc-cat-nome { font-size: 13px; color: rgba(168,155,242,0.75); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rc-cat-mini-bar-wrap { height: 3px; background: rgba(168,155,242,0.06); border-radius: 3px; margin-top: 4px; overflow: hidden; }
+.rc-cat-nome { font-size: 13px; color: var(--text-secondary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-cat-mini-bar-wrap { height: 3px; background: var(--bg-input); border-radius: 3px; margin-top: 4px; overflow: hidden; }
 .rc-cat-mini-bar { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
-.rc-cat-val { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rc-cat-val { font-size: 13px; color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rc-cat-pct { font-size: 11px; color: rgba(168,155,242,0.35); width: 38px; text-align: right; flex-shrink: 0; }
 .rc-empty-cats { text-align: center; color: rgba(168,155,242,0.25); font-size: 12px; padding: 12px 0 4px; }
 
 /* ── Tabela ── */
 .rc-table-card {
-  background: rgba(168,155,242,0.02);
-  border: 1px solid rgba(168,155,242,0.09);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 32px;
@@ -246,7 +247,7 @@
 }
 
 .rc-table-header-right { display: flex; align-items: center; gap: 10px; }
-.rc-table-title { font-size: 11px; font-weight: 600; color: rgba(168,155,242,0.7); text-transform: uppercase; letter-spacing: 1px; }
+.rc-table-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
 .rc-badge { font-size: 11px; color: rgba(168,155,242,0.4); background: rgba(168,155,242,0.06); border: 1px solid rgba(168,155,242,0.12); border-radius: 20px; padding: 3px 10px; }
 
 .rc-extrato-head {
@@ -286,8 +287,8 @@
 .rc-extrato-row:hover { background: rgba(168,155,242,0.03); }
 .rc-row-alt { background: rgba(168,155,242,0.015); }
 
-.rc-ext-date { font-size: 12px; color: rgba(168,155,242,0.4); font-weight: 500; }
-.rc-ext-desc { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
+.rc-ext-date { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.rc-ext-desc { font-size: 13px; color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
 
 .rc-cat-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
 .rc-cat-none { color: rgba(168,155,242,0.2); font-size: 12px; }

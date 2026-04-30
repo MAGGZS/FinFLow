@@ -2,6 +2,7 @@
   padding: 36px 40px;
   min-height: 100vh;
   animation: fadeIn 0.35s ease both;
+  color: var(--text-primary);
 }
 
 /* ── Topbar ── */
@@ -24,7 +25,7 @@
 
 .fd-subtitle {
   font-size: 12px;
-  color: rgba(168,155,242,0.4);
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
@@ -61,8 +62,8 @@
 }
 
 .fd-card {
-  background: rgba(168,155,242,0.03);
-  border: 1px solid rgba(168,155,242,0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   padding: 22px 20px 18px;
   position: relative;
@@ -108,14 +109,14 @@
 .fd-card-value {
   font-size: 26px;
   font-weight: 700;
-  color: var(--purple-light);
+  color: var(--text-primary);
   letter-spacing: -0.5px;
   line-height: 1;
 }
 
 .fd-card-label {
   font-size: 10px;
-  color: rgba(168,155,242,0.45);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
@@ -124,7 +125,7 @@
 
 .fd-card-sub {
   font-size: 11px;
-  color: rgba(168,155,242,0.3);
+  color: var(--text-muted);
 }
 
 /* ── Gráficos ── */
@@ -137,8 +138,8 @@
 }
 
 .fd-chart-card {
-  background: rgba(168,155,242,0.02);
-  border: 1px solid rgba(168,155,242,0.09);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   overflow: visible;
   transition: border-color 0.2s ease;
@@ -156,7 +157,7 @@
 .fd-chart-title {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(168,155,242,0.7);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -213,7 +214,7 @@
 }
 
 .fd-legend-name {
-  color: rgba(168,155,242,0.6);
+  color: var(--text-secondary);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -221,7 +222,7 @@
 }
 
 .fd-legend-val {
-  color: rgba(255,255,255,0.7);
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 11px;
 }
@@ -234,8 +235,8 @@
 
 /* ── Tabela recentes ── */
 .fd-table-card {
-  background: rgba(168,155,242,0.02);
-  border: 1px solid rgba(168,155,242,0.09);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 32px;
@@ -448,7 +449,7 @@
 
 .fd-ext-desc {
   font-size: 13px;
-  color: rgba(255,255,255,0.8);
+  color: var(--text-primary);
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;

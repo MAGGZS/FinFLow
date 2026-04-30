@@ -13,10 +13,10 @@
   justify-content: space-between;
   gap: 8px;
   padding: 10px 13px;
-  background: rgba(168,155,242,0.05);
-  border: 1px solid rgba(168,155,242,0.13);
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
   border-radius: 9px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 13px;
   font-family: inherit;
   cursor: pointer;
@@ -39,7 +39,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgba(255,255,255,0.92);
+  color: var(--text-primary);
 }
 .csel-placeholder {
   flex: 1;
@@ -60,10 +60,10 @@
 .csel-dropdown {
   position: fixed;
   z-index: 99999;
-  background: #0c0c0c;
-  border: 1px solid rgba(168,155,242,0.2);
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 4px 16px rgba(0,0,0,0.7);
+  box-shadow: var(--shadow-dropdown);
   overflow-y: auto;
   max-height: 220px;
   padding: 4px;

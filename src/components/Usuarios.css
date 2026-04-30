@@ -30,7 +30,7 @@
 
 .usr-subtitle {
   font-size: 12px;
-  color: rgba(168,155,242,0.5);
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
@@ -103,8 +103,8 @@
 .usr-search::placeholder { color: rgba(168,155,242,0.35); }
 
 .usr-card {
-  background: rgba(168,155,242,0.03);
-  border: 1px solid rgba(168,155,242,0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   overflow: hidden;
   animation: fadeUp 0.45s cubic-bezier(0.4,0,0.2,1) 0.22s both;
@@ -124,20 +124,20 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(168,155,242,0.4);
+  color: var(--text-muted);
   font-weight: 600;
-  border-bottom: 1px solid rgba(168,155,242,0.08);
-  background: rgba(168,155,242,0.02);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-card-hover);
 }
 
 .usr-table td {
   padding: 13px 18px;
-  border-bottom: 1px solid rgba(168,155,242,0.05);
+  border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
   transition: background 0.2s ease;
 }
 .usr-table tr:last-child td { border-bottom: none; }
-.usr-table tr:hover td { background: rgba(168,155,242,0.03); }
+.usr-table tr:hover td { background: var(--bg-card-hover); }
 
 .usr-user-cell {
   display: flex;
@@ -158,10 +158,10 @@
   flex-shrink: 0;
 }
 
-.usr-nome  { color: rgba(255,255,255,0.9); font-weight: 500; }
-.usr-id    { color: rgba(168,155,242,0.35); font-size: 11px; }
-.usr-email { color: rgba(168,155,242,0.6); font-size: 12px; }
-.usr-date  { color: rgba(168,155,242,0.4); font-size: 12px; }
+.usr-nome  { color: var(--text-primary); font-weight: 500; }
+.usr-id    { color: var(--text-muted); font-size: 11px; }
+.usr-email { color: var(--text-secondary); font-size: 12px; }
+.usr-date  { color: var(--text-muted); font-size: 12px; }
 
 .usr-pill {
   display: inline-block;
@@ -248,7 +248,7 @@
 .usr-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: var(--overlay);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -258,13 +258,13 @@
 }
 
 .usr-modal-box {
-  background: rgba(8,8,8,0.97);
-  border: 1px solid rgba(168,155,242,0.25);
+  background: var(--bg-modal);
+  border: 1px solid var(--border-strong);
   border-radius: 16px;
   padding: 40px 36px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.8), inset 0 1px 1px rgba(168,155,242,0.1);
+  box-shadow: var(--shadow-modal);
   animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
   text-align: center;
 }
@@ -301,11 +301,11 @@
 
 .usr-modal-desc {
   font-size: 13px;
-  color: rgba(168,155,242,0.6);
+  color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 8px;
 }
-.usr-modal-desc strong { color: rgba(255,255,255,0.85); }
+.usr-modal-desc strong { color: var(--text-primary); }
 
 /* Edit modal header */
 .usr-modal-edit-header {
@@ -363,10 +363,10 @@
 .usr-edit-field input {
   width: 100%;
   padding: 11px 14px;
-  background: rgba(168,155,242,0.05);
-  border: 1px solid rgba(168,155,242,0.2);
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 13px;
   outline: none;
   font-family: inherit;
@@ -394,14 +394,14 @@
   cursor: pointer;
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(168,155,242,0.1);
-  background: rgba(168,155,242,0.04);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
   transition: all 0.2s ease;
   user-select: none;
 }
 .usr-edit-toggle:hover {
-  background: rgba(168,155,242,0.08);
-  border-color: rgba(168,155,242,0.18);
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
 }
 
 .usr-toggle-track {
@@ -432,8 +432,8 @@
   background: var(--black-primary);
 }
 
-.usr-toggle-label-on  { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500; }
-.usr-toggle-label-off { font-size: 13px; color: rgba(168,155,242,0.4); }
+.usr-toggle-label-on  { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+.usr-toggle-label-off { font-size: 13px; color: var(--text-muted); }
 
 .usr-edit-content {
   transition: opacity 0.2s ease;
