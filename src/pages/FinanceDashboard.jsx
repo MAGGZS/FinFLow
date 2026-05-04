@@ -308,7 +308,7 @@ export default function FinanceDashboard() {
         <>
           {loteConfirm && <ConfirmCloseModal onConfirm={sairLote} onCancel={() => setLoteConfirm(false)}/>}
           <div className={`usr-modal-overlay${loteExiting ? ' exiting' : ''}`} onClick={tentarFecharLote}>
-            <div className="fd-lote-box" style={loteItems.length > 4 ? { maxHeight: '80vh' } : {}} onClick={e => e.stopPropagation()}>
+            <div className="fd-lote-box" onClick={e => e.stopPropagation()}>
 
               <div className="fd-lote-header">
                 <div>
@@ -361,16 +361,15 @@ export default function FinanceDashboard() {
                         onChange={e => updateItem(item.id, 'data', e.target.value)}
                         style={{ colorScheme: 'dark' }}
                       />
-                      <select
-                        className="fd-lote-input fd-lote-cat"
+                      <Select
                         value={item.categoria_id}
-                        onChange={e => updateItem(item.id, 'categoria_id', e.target.value)}
-                      >
-                        <option value="">Sem categoria</option>
-                        {catsFiltradas.map(c => (
-                          <option key={c.id} value={c.id}>{c.icone} {c.nome}</option>
-                        ))}
-                      </select>
+                        onChange={v => updateItem(item.id, 'categoria_id', v)}
+                        placeholder="Sem categoria"
+                        options={[
+                          { value: '', label: 'Sem categoria' },
+                          ...catsFiltradas.map(c => ({ value: String(c.id), label: `${c.icone} ${c.nome}` })),
+                        ]}
+                      />
                     </div>
                   </div>
                 );
