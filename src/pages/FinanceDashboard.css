@@ -344,16 +344,134 @@
 .fd-bar-tooltip-mes { font-size: 11px; color: rgba(168,155,242,0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 .fd-bar-tooltip-val { font-size: 13px; color: var(--purple-light); font-weight: 700; font-variant-numeric: tabular-nums; }
 
-/* ── FAB ── */
-.fd-fab-wrap {
+.fd-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  background: linear-gradient(135deg, var(--purple-primary) 0%, var(--accent) 100%);
+  border: none;
+  border-radius: 8px;
+  color: var(--black-primary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.fd-add-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+.fd-add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(168,155,242,0.4); }
+.fd-add-btn:hover::before { width: 300px; height: 300px; }
+.fd-add-btn:active { transform: translateY(0); }
+
+/* ── Picker modal ── */
+.fd-picker-overlay {
   position: fixed;
-  bottom: 32px;
-  right: 36px;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 9999;
+  animation: fadeIn 0.15s ease both;
+  backdrop-filter: blur(4px);
+}
+
+.fd-picker-box {
+  background: #080808;
+  border: 1px solid rgba(168,155,242,0.15);
+  border-radius: 16px;
+  padding: 28px 32px;
+  min-width: 320px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+  animation: fadeUp 0.2s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.fd-picker-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.fd-picker-options {
+  display: flex;
+  gap: 12px;
+}
+
+.fd-picker-opt {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
+  padding: 20px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+.fd-picker-opt:hover { transform: translateY(-3px); }
+
+.fd-picker-receita {
+  background: rgba(16,185,129,0.06);
+  border-color: rgba(16,185,129,0.2);
+  color: #10b981;
+}
+.fd-picker-receita:hover { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.4); box-shadow: 0 8px 20px rgba(16,185,129,0.15); }
+
+.fd-picker-gasto {
+  background: rgba(239,68,68,0.06);
+  border-color: rgba(239,68,68,0.2);
+  color: #ef4444;
+}
+.fd-picker-gasto:hover { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.4); box-shadow: 0 8px 20px rgba(239,68,68,0.15); }
+
+.fd-picker-meta {
+  background: rgba(168,155,242,0.06);
+  border-color: rgba(168,155,242,0.2);
+  color: var(--purple-primary);
+}
+.fd-picker-meta:hover { background: rgba(168,155,242,0.12); border-color: rgba(168,155,242,0.4); box-shadow: 0 8px 20px rgba(168,155,242,0.15); }
+
+/* FAB — desktop hidden */
+.fd-fab-wrap { display: none; }
+
+@media (max-width: 768px) {
+  .fd-add-btn { display: none; }
+  .fd-fab-wrap {
+    display: flex;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 9999;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
 }
 
 /* ── Modal de lançamento ── */
@@ -623,12 +741,6 @@
 }
 .fd-fab-meta:hover { border-color: rgba(168,155,242,0.4); background: rgba(168,155,242,0.08); }
 
-@media (max-width: 768px) {
-  .fd-fab-wrap {
-    bottom: 80px;
-    right: 20px;
-  }
-}
 
 /* ── Select estilizado ── */
 .fd-select-full {

@@ -281,8 +281,46 @@
 .pf-btn-save:active { transform: translateY(0); }
 .pf-btn-save:disabled { opacity: 0.7; cursor: default; transform: none; box-shadow: none; }
 
+.pf-btn-logout {
+  display: none;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .pf-field-pwd { position: relative; }
+  .pwd-drop-inline {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: fit-content;
+    transform: none !important;
+    margin-top: 4px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99;
+  }
+  .pwd-drop-inline.pwd-drop-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pwd-drop-inline .pwd-drop-inner::before {
+    display: none;
+  }
+  .pf-btn-logout {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    background: none;
+    border: none;
+    color: rgba(255,107,107,0.6);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    transition: color 0.2s ease;
+  }
+  .pf-btn-logout:hover { color: #ff6b6b; }
   .pf-page { padding: 20px 16px 84px; }
   .pf-layout { grid-template-columns: 1fr; }
   .pf-avatar-card { position: static; }

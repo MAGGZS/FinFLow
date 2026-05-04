@@ -14,19 +14,19 @@ const rules = [
   { id: 'special', label: 'Um caractere especial', test: v => /[^A-Za-z0-9]/.test(v) },
 ];
 
-function PasswordStrength({ value, visible, anchorRef }) {
+function PasswordStrength({ value, visible, anchorRef, inline }) {
   const [pos, setPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    if (!anchorRef?.current) return;
+    if (inline || !anchorRef?.current) return;
     const rect = anchorRef.current.getBoundingClientRect();
     setPos({ top: rect.top + rect.height / 2, left: rect.left - 14 - 200 });
-  }, [visible, anchorRef]);
+  }, [visible, anchorRef, inline]);
 
   const checks = rules.map(r => ({ ...r, ok: r.test(value) }));
 
-  return createPortal(
-    <div className={`pwd-drop${visible ? ' pwd-drop-open' : ''}`} style={{ top: pos.top, left: pos.left }}>
+  const content = (
+    <div className={`pwd-drop${visible ? ' pwd-drop-open' : ''}${inline ? ' pwd-drop-inline' : ''}`} style={inline ? {} : { top: pos.top, left: pos.left }}>
       <div className="pwd-drop-inner">
         {checks.map(c => (
           <div key={c.id} className={`pwd-rule${c.ok ? ' pwd-rule-ok' : ''}`}>
@@ -45,9 +45,10 @@ function PasswordStrength({ value, visible, anchorRef }) {
           </div>
         ))}
       </div>
-    </div>,
-    document.body
+    </div>
   );
+
+  return inline ? content : createPortal(content, document.body);
 }
 
 export default function Profile() {
@@ -65,6 +66,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
   const pwdRef = useRef(null);
+  const isMobile = window.innerWidth <= 768;
 
   if (!usuario) { navigate('/'); return null; }
 
@@ -118,7 +120,7 @@ export default function Profile() {
   return (
     <div className="pf-page">
       <Toast toasts={toasts}/>
-      <PasswordStrength value={senha} visible={pwdFocused || senha.length > 0} anchorRef={pwdRef}/>
+      {!isMobile && <PasswordStrength value={senha} visible={pwdFocused || senha.length > 0} anchorRef={pwdRef}/>}
 
       <div className="pf-topbar">
         <div>
@@ -176,12 +178,13 @@ export default function Profile() {
               <Lock size={13}/> Alterar senha <span className="pf-optional">(opcional)</span>
             </div>
 
-            <div className="pf-field">
+            <div className="pf-field pf-field-pwd">
               <label>Nova senha</label>
               <div className="pf-input-wrap">
                 <input
                   ref={pwdRef}
                   type={showSenha ? 'text' : 'password'}
+                  autoComplete="new-password"
                   value={senha}
                   onChange={e => { setSenha(e.target.value); setErrors(v => ({ ...v, senha: '' })); }}
                   onFocus={() => setPwdFocused(true)}
@@ -194,6 +197,7 @@ export default function Profile() {
                 </button>
               </div>
               {errors.senha && <span className="pf-error">⚠ {errors.senha}</span>}
+              {isMobile && <PasswordStrength value={senha} visible={pwdFocused || senha.length > 0} inline/>}
             </div>
 
             <div className="pf-field">
@@ -201,6 +205,7 @@ export default function Profile() {
               <div className="pf-input-wrap">
                 <input
                   type={showConfirmar ? 'text' : 'password'}
+                  autoComplete="new-password"
                   value={confirmar}
                   onChange={e => { setConfirmar(e.target.value); setErrors(v => ({ ...v, confirmar: '' })); }}
                   placeholder="••••••••"
@@ -219,6 +224,9 @@ export default function Profile() {
             <button className="pf-btn-save" onClick={handleSave} disabled={saving}>
               <Save size={14}/>
               {saving ? 'Salvando...' : 'Salvar alterações'}
+            </button>
+            <button className="pf-btn-logout" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('usuario'); navigate('/'); }}>
+              Sair da conta
             </button>
           </div>
         </div>

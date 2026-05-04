@@ -33,6 +33,7 @@ export default function FinanceDashboard() {
   const [orcamentoId, setOrcamentoId] = useState(null);
   const [fabOpen, setFabOpen]   = useState(false);
   const [modalTipo, setModalTipo] = useState(null);
+  const [showPickerModal, setShowPickerModal] = useState(false);
   const [categorias, setCategorias] = useState([]);
   const [paginaExtrato, setPaginaExtrato] = useState(1);
   const [renderKey, setRenderKey] = useState(0);
@@ -263,6 +264,28 @@ export default function FinanceDashboard() {
       {showRendaModal && <RendaModal onConfirm={handleConfirmRenda}/>}
       {modalTipo && <LancamentoModal tipo={modalTipo} categorias={categorias} onSave={(f) => handleSalvarLancamento(modalTipo, f)} onCancel={() => setModalTipo(null)}/>}
 
+      {showPickerModal && (
+        <div className="fd-picker-overlay" onClick={() => setShowPickerModal(false)}>
+          <div className="fd-picker-box" onClick={e => e.stopPropagation()}>
+            <div className="fd-picker-title">O que deseja registrar?</div>
+            <div className="fd-picker-options">
+              <button className="fd-picker-opt fd-picker-receita" onClick={() => { setShowPickerModal(false); setModalTipo('receita'); }}>
+                <TrendingUp size={20}/>
+                <span>Receita</span>
+              </button>
+              <button className="fd-picker-opt fd-picker-gasto" onClick={() => { setShowPickerModal(false); setModalTipo('gasto'); }}>
+                <TrendingDown size={20}/>
+                <span>Gasto</span>
+              </button>
+              <button className="fd-picker-opt fd-picker-meta" onClick={() => { setShowPickerModal(false); navigate('/app/metas'); }}>
+                <PiggyBank size={20}/>
+                <span>Meta</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Topbar */}
       <div className="fd-topbar">
         <div>
@@ -270,6 +293,9 @@ export default function FinanceDashboard() {
           <div className="fd-subtitle">{MESES[mes-1]} {ano} · Olá, {usuario?.nome?.split(' ')[0]} 👋</div>
         </div>
         <div className="fd-topbar-right">
+          <button className="fd-add-btn" onClick={() => setShowPickerModal(true)}>
+            <Plus size={14}/> Adicionar
+          </button>
           <Select
             value={mes}
             onChange={v => setMes(+v)}
@@ -364,7 +390,7 @@ export default function FinanceDashboard() {
         </div>
       </div>
 
-      {/* FAB */}
+      {/* FAB — mobile only */}
       <div className="fd-fab-wrap" ref={fabRef}>
         <div className={`fd-fab-menu${fabOpen?' open':''}`}>
           <button className="fd-fab-option fd-fab-meta"    onClick={() => { navigate('/app/metas'); setFabOpen(false); }}><PiggyBank size={15}/> Meta</button>
