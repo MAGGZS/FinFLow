@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, TrendingDown, Wallet, RefreshCw, Plus, X, PiggyBank } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, RefreshCw, Plus, X, PiggyBank, Trash2 } from 'lucide-react';
 import Toast, { useToast } from '../components/Toast';
 import Select from '../components/Select';
 import RendaModal from './RendaModal';
 import LancamentoModal from './LancamentoModal';
+import ConfirmCloseModal, { useConfirmClose } from '../components/ConfirmCloseModal';
 import './FinanceDashboard.css';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -34,6 +35,45 @@ export default function FinanceDashboard() {
   const [fabOpen, setFabOpen]   = useState(false);
   const [modalTipo, setModalTipo] = useState(null);
   const [showPickerModal, setShowPickerModal] = useState(false);
+  const [loteItems, setLoteItems] = useState([]);
+  const [savingLote, setSavingLote] = useState(false);
+
+  const hoje = new Date().toISOString().slice(0, 10);
+  const novoItem = () => ({ id: Date.now(), tipo: 'gasto', descricao: '', valor: '', data: hoje, categoria_id: '' });
+  const openLote = () => { setLoteItems([novoItem()]); setShowPickerModal(true); };
+  const loteListRef = useRef(null);
+  const addItem = () => {
+    setLoteItems(l => [...l, novoItem()]);
+    setTimeout(() => {
+      if (loteListRef.current) loteListRef.current.scrollTop = loteListRef.current.scrollHeight;
+    }, 50);
+  };
+  const removeItem = (id) => setLoteItems(l => l.filter(i => i.id !== id));
+  const updateItem = (id, field, value) => setLoteItems(l => l.map(i => i.id === id ? { ...i, [field]: value } : i));
+  const temConteudoLote = () => loteItems.some(i => i.descricao.trim() || i.valor);
+  const { exiting: loteExiting, showConfirm: loteConfirm, setShowConfirm: setLoteConfirm, tentar: tentarFecharLote, sair: sairLote } =
+    useConfirmClose(temConteudoLote, () => setShowPickerModal(false));
+
+  const handleEnviarLote = async () => {
+    const validos = loteItems.filter(i => i.descricao.trim() && parseFloat(i.valor) > 0);
+    if (!validos.length) return;
+    setSavingLote(true);
+    try {
+      await Promise.all(validos.map(item => {
+        const url = item.tipo === 'gasto'
+          ? `${BASE_URL}/finance/orcamento/${orcamentoId}/gastos`
+          : `${BASE_URL}/finance/orcamento/${orcamentoId}/rendas`;
+        const body = item.tipo === 'gasto'
+          ? { descricao: item.descricao, valor: parseFloat(item.valor), data_gasto: item.data, categoria_id: item.categoria_id || null, recorrente: false }
+          : { descricao: item.descricao, valor: parseFloat(item.valor), recebido_em: item.data, categoria_id: item.categoria_id || null };
+        return fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      }));
+      toast(`${validos.length} movimentação(ões) registrada(s)!`, 'success');
+      setShowPickerModal(false);
+      loadDashboard();
+    } catch (e) { toast(e.message, 'error'); }
+    finally { setSavingLote(false); }
+  };
   const [categorias, setCategorias] = useState([]);
   const [paginaExtrato, setPaginaExtrato] = useState(1);
   const [renderKey, setRenderKey] = useState(0);
@@ -265,25 +305,91 @@ export default function FinanceDashboard() {
       {modalTipo && <LancamentoModal tipo={modalTipo} categorias={categorias} onSave={(f) => handleSalvarLancamento(modalTipo, f)} onCancel={() => setModalTipo(null)}/>}
 
       {showPickerModal && (
-        <div className="fd-picker-overlay" onClick={() => setShowPickerModal(false)}>
-          <div className="fd-picker-box" onClick={e => e.stopPropagation()}>
-            <div className="fd-picker-title">O que deseja registrar?</div>
-            <div className="fd-picker-options">
-              <button className="fd-picker-opt fd-picker-receita" onClick={() => { setShowPickerModal(false); setModalTipo('receita'); }}>
-                <TrendingUp size={20}/>
-                <span>Receita</span>
-              </button>
-              <button className="fd-picker-opt fd-picker-gasto" onClick={() => { setShowPickerModal(false); setModalTipo('gasto'); }}>
-                <TrendingDown size={20}/>
-                <span>Gasto</span>
-              </button>
-              <button className="fd-picker-opt fd-picker-meta" onClick={() => { setShowPickerModal(false); navigate('/app/metas'); }}>
-                <PiggyBank size={20}/>
-                <span>Meta</span>
+        <>
+          {loteConfirm && <ConfirmCloseModal onConfirm={sairLote} onCancel={() => setLoteConfirm(false)}/>}
+          <div className={`usr-modal-overlay${loteExiting ? ' exiting' : ''}`} onClick={tentarFecharLote}>
+            <div className="fd-lote-box" style={loteItems.length > 4 ? { maxHeight: '80vh' } : {}} onClick={e => e.stopPropagation()}>
+
+              <div className="fd-lote-header">
+                <div>
+                  <div className="fd-lote-title">Registrar Movimentações</div>
+                  <div className="fd-lote-sub">Adicione várias de uma vez e envie tudo junto</div>
+                </div>
+                <button className="fd-lote-close" onClick={tentarFecharLote}><X size={16}/></button>
+              </div>
+
+            <div className="fd-lote-list">
+              {loteItems.map((item, idx) => {
+                const isGasto = item.tipo === 'gasto';
+                const catsFiltradas = categorias.filter(c => c.tipo === item.tipo);
+                return (
+                  <div key={item.id} className="fd-lote-item">
+                    <div className="fd-lote-item-top">
+                      <span className="fd-lote-num">#{idx + 1}</span>
+                      <div className="fd-lote-tipo-toggle">
+                        <button
+                          className={`fd-lote-tipo-btn${!isGasto ? ' active-receita' : ''}`}
+                          onClick={() => updateItem(item.id, 'tipo', 'receita')}
+                        ><TrendingUp size={12}/> Receita</button>
+                        <button
+                          className={`fd-lote-tipo-btn${isGasto ? ' active-gasto' : ''}`}
+                          onClick={() => updateItem(item.id, 'tipo', 'gasto')}
+                        ><TrendingDown size={12}/> Gasto</button>
+                      </div>
+                      {loteItems.length > 1 && (
+                        <button className="fd-lote-remove" onClick={() => removeItem(item.id)}><Trash2 size={13}/></button>
+                      )}
+                    </div>
+                    <div className="fd-lote-fields">
+                      <input
+                        className="fd-lote-input fd-lote-desc"
+                        placeholder={isGasto ? 'Ex: Almoço, Uber...' : 'Ex: Salário, Freelance...'}
+                        value={item.descricao}
+                        onChange={e => updateItem(item.id, 'descricao', e.target.value)}
+                      />
+                      <input
+                        className="fd-lote-input fd-lote-valor"
+                        type="number"
+                        placeholder="0,00"
+                        value={item.valor}
+                        onChange={e => updateItem(item.id, 'valor', e.target.value)}
+                      />
+                      <input
+                        className="fd-lote-input fd-lote-data"
+                        type="date"
+                        value={item.data}
+                        onChange={e => updateItem(item.id, 'data', e.target.value)}
+                        style={{ colorScheme: 'dark' }}
+                      />
+                      <select
+                        className="fd-lote-input fd-lote-cat"
+                        value={item.categoria_id}
+                        onChange={e => updateItem(item.id, 'categoria_id', e.target.value)}
+                      >
+                        <option value="">Sem categoria</option>
+                        {catsFiltradas.map(c => (
+                          <option key={c.id} value={c.id}>{c.icone} {c.nome}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button className="fd-lote-add-btn" onClick={addItem}>
+              <Plus size={14}/> Adicionar movimentação
+            </button>
+
+            <div className="fd-lote-footer">
+              <button className="usr-btn-cancel" onClick={tentarFecharLote}>Cancelar</button>
+              <button className="usr-btn-save" onClick={handleEnviarLote} disabled={savingLote || !loteItems.some(i => i.descricao.trim() && parseFloat(i.valor) > 0)}>
+                {savingLote ? 'Enviando...' : `Enviar ${loteItems.filter(i => i.descricao.trim() && parseFloat(i.valor) > 0).length} movimentação(es)`}
               </button>
             </div>
           </div>
-        </div>
+          </div>
+        </>
       )}
 
       {/* Topbar */}
@@ -293,7 +399,7 @@ export default function FinanceDashboard() {
           <div className="fd-subtitle">{MESES[mes-1]} {ano} · Olá, {usuario?.nome?.split(' ')[0]} 👋</div>
         </div>
         <div className="fd-topbar-right">
-          <button className="fd-add-btn" onClick={() => setShowPickerModal(true)}>
+          <button className="fd-add-btn" onClick={openLote}>
             <Plus size={14}/> Adicionar
           </button>
           <Select

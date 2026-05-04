@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, Eye, EyeOff, Save } from 'lucide-react';
 import Toast, { useToast } from '../../components/Toast';
+import ConfirmCloseModal from '../../components/ConfirmCloseModal';
 import './Profile.css';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -65,8 +66,14 @@ export default function Profile() {
   const [pwdFocused, setPwdFocused] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
+  const [confirmLogout, setConfirmLogout] = useState(false);
   const pwdRef = useRef(null);
   const isMobile = window.innerWidth <= 768;
+
+  const temAlteracoes = () =>
+    nome !== (usuario?.nome || '') ||
+    email !== (usuario?.email || '') ||
+    !!senha.trim();
 
   if (!usuario) { navigate('/'); return null; }
 
@@ -121,6 +128,13 @@ export default function Profile() {
     <div className="pf-page">
       <Toast toasts={toasts}/>
       {!isMobile && <PasswordStrength value={senha} visible={pwdFocused || senha.length > 0} anchorRef={pwdRef}/>}
+
+      {confirmLogout && (
+        <ConfirmCloseModal
+          onConfirm={() => { localStorage.removeItem('token'); localStorage.removeItem('usuario'); navigate('/'); }}
+          onCancel={() => setConfirmLogout(false)}
+        />
+      )}
 
       <div className="pf-topbar">
         <div>
@@ -225,7 +239,10 @@ export default function Profile() {
               <Save size={14}/>
               {saving ? 'Salvando...' : 'Salvar alterações'}
             </button>
-            <button className="pf-btn-logout" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('usuario'); navigate('/'); }}>
+            <button className="pf-btn-logout" onClick={() => {
+              if (temAlteracoes()) setConfirmLogout(true);
+              else { localStorage.removeItem('token'); localStorage.removeItem('usuario'); navigate('/'); }
+            }}>
               Sair da conta
             </button>
           </div>

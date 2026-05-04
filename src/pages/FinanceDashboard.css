@@ -379,7 +379,235 @@
 .fd-add-btn:hover::before { width: 300px; height: 300px; }
 .fd-add-btn:active { transform: translateY(0); }
 
-/* ── Picker modal ── */
+/* ── Modal lote ── */
+.fd-lote-box {
+  background: #080808;
+  border: 1px solid rgba(168,155,242,0.15);
+  border-radius: 16px;
+  padding: 28px;
+  width: 620px;
+  max-width: 95vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+  animation: fadeUp 0.2s cubic-bezier(0.4,0,0.2,1) both;
+  transition: max-height 0.3s ease;
+}
+
+.fd-lote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.fd-lote-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--purple-light);
+  letter-spacing: -0.3px;
+}
+
+.fd-lote-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.fd-lote-close {
+  width: 28px;
+  height: 28px;
+  background: rgba(168,155,242,0.07);
+  border: 1px solid rgba(168,155,242,0.13);
+  border-radius: 7px;
+  color: rgba(168,155,242,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.fd-lote-close:hover { background: rgba(168,155,242,0.14); color: var(--purple-primary); }
+
+.fd-lote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 4px;
+  scroll-behavior: smooth;
+}
+.fd-lote-list::-webkit-scrollbar { width: 4px; }
+.fd-lote-list::-webkit-scrollbar-track { background: transparent; }
+.fd-lote-list::-webkit-scrollbar-thumb { background: rgba(168,155,242,0.15); border-radius: 4px; }
+
+.fd-lote-item {
+  background: rgba(168,155,242,0.03);
+  border: 1px solid rgba(168,155,242,0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s ease, max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
+  animation: loteItemIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  overflow: hidden;
+}
+
+@keyframes loteItemIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.97); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0) scale(1); max-height: 200px; }
+}
+.fd-lote-item:hover { border-color: rgba(168,155,242,0.14); }
+
+.fd-lote-item-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fd-lote-num {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(168,155,242,0.3);
+  letter-spacing: 0.5px;
+  min-width: 20px;
+}
+
+.fd-lote-tipo-toggle {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.fd-lote-tipo-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  background: rgba(168,155,242,0.04);
+  border: 1px solid rgba(168,155,242,0.1);
+  color: rgba(168,155,242,0.35);
+  transition: all 0.18s ease;
+}
+.fd-lote-tipo-btn.active-receita {
+  background: rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.3);
+  color: #10b981;
+}
+.fd-lote-tipo-btn.active-gasto {
+  background: rgba(239,68,68,0.1);
+  border-color: rgba(239,68,68,0.3);
+  color: #ef4444;
+}
+
+.fd-lote-remove {
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  color: rgba(255,80,80,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+.fd-lote-remove:hover { background: rgba(255,80,80,0.08); color: #ff6b6b; }
+
+.fd-lote-fields {
+  display: grid;
+  grid-template-columns: 1fr 100px 120px 140px;
+  gap: 8px;
+}
+
+.fd-lote-input {
+  padding: 8px 10px;
+  background: rgba(168,155,242,0.05);
+  border: 1px solid rgba(168,155,242,0.15);
+  border-radius: 7px;
+  color: var(--text-primary);
+  font-size: 12px;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+.fd-lote-input:focus {
+  background: rgba(168,155,242,0.08);
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 8px rgba(168,155,242,0.1);
+}
+.fd-lote-input::placeholder { color: rgba(168,155,242,0.25); }
+.fd-lote-cat { appearance: none; cursor: pointer; }
+.fd-lote-cat option { background: #0a0a0a; }
+
+.fd-lote-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  background: rgba(168,155,242,0.05);
+  border: 1px dashed rgba(168,155,242,0.2);
+  border-radius: 8px;
+  color: rgba(168,155,242,0.5);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+.fd-lote-add-btn:hover {
+  background: rgba(168,155,242,0.09);
+  border-color: rgba(168,155,242,0.35);
+  color: var(--purple-primary);
+}
+
+.fd-lote-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 4px;
+  border-top: 1px solid rgba(168,155,242,0.07);
+}
+
+.fd-lote-confirm {
+  background: rgba(255,80,80,0.04);
+  border: 1px solid rgba(255,80,80,0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeUp 0.15s ease both;
+}
+
+.fd-lote-confirm-text {
+  font-size: 13px;
+  color: rgba(255,107,107,0.85);
+  font-weight: 500;
+}
+
+.fd-lote-confirm-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ── Picker modal (mantido para FAB mobile) ── */
 .fd-picker-overlay {
   position: fixed;
   inset: 0;
